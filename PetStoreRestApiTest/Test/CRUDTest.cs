@@ -10,28 +10,34 @@ namespace PetStoreRestApiTest.Test
     [TestFixture]
     internal class CRUDTest : ExtentReport
     {
-        private Pet testPet = new Pet
+        private static Pet TestPet = new Pet
         {
             Id = 56,
             Name = "Doggy",
             Status = "available"
         };
+        private static Pet UpdatedPet = new Pet
+        {
+            Id = TestPet.Id,
+            Name = "Cread",
+            Status = "sold"
+        };
 
         [Test, Order(1)]
         public void CreatePet()
         {
-            IRestResponse responce = PetStoreWebService.CreatePet(testPet);
+            IRestResponse responce = PetStoreWebService.CreatePet(TestPet);
             Pet responcePet = DeserializeResponceToPet(responce);
-            Assert.That(responcePet, Is.EqualTo(testPet), "The created pet contains unexpected data");
+            Assert.That(responcePet, Is.EqualTo(TestPet), "The created pet contains unexpected data");
         }
 
         [Test, Order(2)]
         public void ReadPetData()
         {
-            VerifyThatPetExist(testPet.Id.ToString());
-            IRestResponse responce = PetStoreWebService.ReadPetData(testPet.Id.ToString());
+            VerifyThatPetExist(TestPet.Id.ToString());
+            IRestResponse responce = PetStoreWebService.ReadPetData(TestPet.Id.ToString());
             var responcePet = DeserializeResponceToPet(responce);
-            Assert.That(responcePet, Is.EqualTo(testPet), "The pets aren't equals");
+            Assert.That(responcePet, Is.EqualTo(TestPet), "The pets aren't equals");
         }
 
         private static Pet DeserializeResponceToPet(IRestResponse responce)
@@ -42,22 +48,17 @@ namespace PetStoreRestApiTest.Test
         [Test, Order(3)]
         public void UpdatePetData()
         {
-            var updatedPet = new Pet
-            {
-                Id = testPet.Id,
-                Name = "Cread",
-                Status = "sold"
-            };
-            VerifyThatPetExist(updatedPet.Id.ToString());
-            IRestResponse responce = PetStoreWebService.UpdatePet(updatedPet);
+            
+            VerifyThatPetExist(UpdatedPet.Id.ToString());
+            IRestResponse responce = PetStoreWebService.UpdatePet(UpdatedPet);
             Assert.That(responce.StatusCode, Is.EqualTo(HttpStatusCode.OK), $"The pet isn't updated.");
         }
 
         [Test, Order(4)]
         public void DeletePet()
         {
-            VerifyThatPetExist(testPet.Id.ToString());
-            IRestResponse responce = PetStoreWebService.DeletePet(testPet.Id.ToString());
+            VerifyThatPetExist(TestPet.Id.ToString());
+            IRestResponse responce = PetStoreWebService.DeletePet(TestPet.Id.ToString());
             Assert.That(responce.StatusCode, Is.EqualTo(HttpStatusCode.OK), $"Deleting failed.");
         }
 
