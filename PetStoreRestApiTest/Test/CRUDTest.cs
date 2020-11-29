@@ -8,7 +8,7 @@ using System.Net;
 namespace PetStoreRestApiTest.Test
 {
     [TestFixture]
-    internal class CRUDTest : ExtentReport
+    internal class CRUDTest
     {
         private static Pet TestPet = new Pet
         {
