@@ -1,11 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using System.Net;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using PetStoreRestApiTest.Modules;
 using PetStoreRestApiTest.Service;
 using RestSharp;
-using System.Net;
 
-namespace PetStoreRestApiTest.Test
+namespace PetStoreApiTests.Test
 {
     [TestFixture]
     internal class CRUDTest
